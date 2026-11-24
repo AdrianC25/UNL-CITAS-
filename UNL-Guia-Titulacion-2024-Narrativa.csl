@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="es-ES" demote-non-dropping-particle="never">
   <info>
-    <title>UNL - Guía de titulación 2024 (APA español) - SOLO NARRATIVA</title>
-    <title-short>UNL-APA-Narrativa</title-short>
-    <id>http://www.zotero.org/styles/unl-guia-titulacion-2024-narrativa</id>
-    <link href="http://www.zotero.org/styles/unl-guia-titulacion-2024-narrativa" rel="self"/>
+    <title>Universidad Nacional de Loja - Guía de titulación 2024 (APA en español)</title>
+    <title-short>UNL-APA</title-short>
+    <id>http://www.zotero.org/styles/unl-guia-titulacion-2024</id>
+    <link href="http://www.zotero.org/styles/unl-guia-titulacion-2024" rel="self"/>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>Basado en APA (última edición) adaptado a la Guía para la escritura y presentación del proyecto de integración curricular o de titulación de la UNL (2024). Conector "y", et al. desde 3 autores, bibliografía alfabética con sangría francesa.</summary>
@@ -266,10 +266,23 @@
       <key variable="issued"/>
     </sort>
     <layout delimiter="; ">
-      <group delimiter=" ">
-        <text macro="author-intext"/>
-        <text macro="issued-intext" prefix="(" suffix=")"/>
-      </group>
+      <choose>
+        <!-- CITA NARRATIVA: Autor (año). Se activa al elegir el localizador "Línea" (line) en Mendeley Cite -->
+        <if locator="line">
+          <group delimiter=" ">
+            <text macro="author-intext"/>
+            <text macro="issued-intext" prefix="(" suffix=")"/>
+          </group>
+        </if>
+        <!-- CITA PARENTÉTICA: (Autor, año) o (Autor, año, p. X) -->
+        <else>
+          <group delimiter=", " prefix="(" suffix=")">
+            <text macro="author-intext"/>
+            <text macro="issued-intext"/>
+            <text macro="locator"/>
+          </group>
+        </else>
+      </choose>
     </layout>
   </citation>
 
@@ -289,4 +302,3 @@
     </layout>
   </bibliography>
 </style>
-
