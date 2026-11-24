@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0.1" default-locale="es-ES" demote-non-dropping-particle="never">
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="es-ES" demote-non-dropping-particle="never">
   <info>
     <title>UNL - Guía de titulación 2024 (APA español) - SOLO NARRATIVA</title>
     <title-short>UNL-APA-Narrativa</title-short>
@@ -289,3 +289,4 @@
     </layout>
   </bibliography>
 </style>
+
