@@ -1,46 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl"
-       version="1.0"
-       class="in-text"
-       default-locale="es-ES">
-
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="es-ES" demote-non-dropping-particle="never" page-range-format="expanded">
   <info>
-    <title>UNL APA 7 Español con Y</title>
+    <title>UNL - APA 7 en español (con y)</title>
+    <title-short>UNL APA 7 ES</title-short>
     <id>http://www.zotero.org/styles/unl-apa-7-es-y</id>
     <link href="http://www.zotero.org/styles/unl-apa-7-es-y" rel="self"/>
     <link href="http://www.zotero.org/styles/apa" rel="template"/>
+    <author><name>Adaptación para la guía UNL 2024</name></author>
     <category citation-format="author-date"/>
-    <summary>APA 7 adaptado a la guía UNL 2024 con conjunción y.</summary>
-    <updated>2026-11-24T00:00:00+00:00</updated>
+    <summary>Estilo autor-fecha basado en APA 7 y adaptado a los ejemplos de la guía UNL 2024. Usa la conjunción y entre autores.</summary>
+    <updated>2026-11-25T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Basado en CSL; adaptación para uso académico.</rights>
   </info>
 
-  <locale xml:lang="es">
+  <locale xml:lang="es-ES">
     <terms>
       <term name="and">y</term>
       <term name="et-al">et al.</term>
       <term name="no date">s. f.</term>
       <term name="page" form="short">p.</term>
       <term name="pages" form="short">pp.</term>
-      <term name="editor" form="short">
-        <single>Ed.</single>
-        <multiple>Eds.</multiple>
-      </term>
+      <term name="editor" form="short"><single>Ed.</single><multiple>Eds.</multiple></term>
+      <term name="edition" form="short">ed.</term>
     </terms>
   </locale>
 
   <macro name="author">
     <names variable="author">
-      <name name-as-sort-order="all"
-            initialize-with=". "
-            delimiter=", "
-            and="text"
-            delimiter-precedes-last="always"/>
+      <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " and="text" delimiter-precedes-last="always"/>
       <substitute>
         <names variable="editor">
-          <name name-as-sort-order="all"
-                initialize-with=". "
-                delimiter=", "
-                and="text"/>
+          <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " and="text" delimiter-precedes-last="always"/>
         </names>
         <text variable="title"/>
       </substitute>
@@ -49,38 +39,41 @@
 
   <macro name="author-short">
     <names variable="author">
-      <name form="short" and="text" delimiter=", "/>
+      <name form="short" and="text" delimiter=", " delimiter-precedes-last="always"/>
       <et-al/>
-      <substitute>
-        <text variable="title" form="short"/>
-      </substitute>
+      <substitute><text variable="title" form="short"/></substitute>
     </names>
   </macro>
 
-  <macro name="date">
+  <macro name="issued">
     <choose>
       <if variable="issued">
-        <date variable="issued">
-          <date-part name="year"/>
-        </date>
+        <date variable="issued"><date-part name="year"/></date>
       </if>
-      <else>
-        <text term="no date"/>
-      </else>
+      <else><text term="no date"/></else>
     </choose>
   </macro>
 
-  <citation et-al-min="3"
-            et-al-use-first="1"
-            disambiguate-add-year-suffix="true">
+  <macro name="doi-or-url">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix="https://doi.org/"/>
+      </if>
+      <else-if variable="URL">
+        <text variable="URL"/>
+      </else-if>
+    </choose>
+  </macro>
+
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" collapse="year">
     <sort>
       <key macro="author-short"/>
-      <key macro="date"/>
+      <key macro="issued"/>
     </sort>
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
         <text macro="author-short"/>
-        <text macro="date"/>
+        <text macro="issued"/>
         <group delimiter=" ">
           <label variable="locator" form="short"/>
           <text variable="locator"/>
@@ -89,23 +82,16 @@
     </layout>
   </citation>
 
-  <bibliography hanging-indent="true"
-                et-al-min="21"
-                et-al-use-first="19"
-                entry-spacing="0"
-                line-spacing="2">
+  <bibliography hanging-indent="true" et-al-min="21" et-al-use-first="19" entry-spacing="0" line-spacing="2">
     <sort>
       <key macro="author"/>
-      <key macro="date"/>
+      <key macro="issued"/>
       <key variable="title"/>
     </sort>
     <layout>
       <group delimiter=" ">
         <text macro="author"/>
-        <group prefix="(" suffix=").">
-          <text macro="date"/>
-        </group>
-
+        <group prefix="(" suffix=")."><text macro="issued"/></group>
         <choose>
           <if type="article-journal article-magazine article-newspaper" match="any">
             <text variable="title" suffix="."/>
@@ -117,43 +103,44 @@
               </group>
               <text variable="page"/>
             </group>
-            <choose>
-              <if variable="DOI">
-                <text variable="DOI" prefix=". https://doi.org/"/>
-              </if>
-              <else-if variable="URL">
-                <text variable="URL" prefix=". "/>
-              </else-if>
-            </choose>
+            <text macro="doi-or-url" prefix=". "/>
           </if>
-
+          <else-if type="chapter" match="any">
+            <text variable="title" suffix="."/>
+            <group prefix="En " delimiter=" ">
+              <names variable="editor">
+                <name name-as-sort-order="all" initialize-with=". " delimiter=", " and="text" delimiter-precedes-last="always"/>
+                <label form="short" prefix=" (" suffix=")" plural="contextual"/>
+              </names>
+              <text variable="container-title" font-style="italic"/>
+              <text variable="page" prefix="(pp. " suffix=")"/>
+            </group>
+            <text variable="publisher" prefix=". "/>
+            <text macro="doi-or-url" prefix=". "/>
+          </else-if>
           <else-if type="thesis">
             <text variable="title" font-style="italic" suffix="."/>
             <group prefix="[" suffix="]" delimiter=", ">
               <text variable="genre"/>
               <text variable="publisher"/>
             </group>
-            <text variable="URL" prefix=". "/>
+            <text macro="doi-or-url" prefix=". "/>
           </else-if>
-
-          <else-if type="webpage">
+          <else-if type="webpage post-weblog">
             <text variable="title" font-style="italic" suffix="."/>
             <text variable="container-title" prefix=" "/>
-            <text variable="URL" prefix=". "/>
+            <text macro="doi-or-url" prefix=". "/>
           </else-if>
-
+          <else-if type="report">
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="publisher"/>
+            <text macro="doi-or-url" prefix=". "/>
+          </else-if>
           <else>
             <text variable="title" font-style="italic" suffix="."/>
             <text variable="edition" prefix=" (" suffix=")."/>
             <text variable="publisher"/>
-            <choose>
-              <if variable="DOI">
-                <text variable="DOI" prefix=". https://doi.org/"/>
-              </if>
-              <else-if variable="URL">
-                <text variable="URL" prefix=". "/>
-              </else-if>
-            </choose>
+            <text macro="doi-or-url" prefix=". "/>
           </else>
         </choose>
       </group>
