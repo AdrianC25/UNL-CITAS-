@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="es-ES" demote-non-dropping-particle="never">
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="es-ES">
+
   <info>
-    <title>Universidad Nacional de Loja - Guía de titulación 2024 (APA en español)</title>
-    <title-short>UNL-APA</title-short>
-    <id>http://www.zotero.org/styles/unl-guia-titulacion-2024</id>
-    <link href="http://www.zotero.org/styles/unl-guia-titulacion-2024" rel="self"/>
+    <title>UNL APA 7 Español con Y</title>
+    <id>http://www.zotero.org/styles/unl-apa-7-es-y</id>
+    <link href="http://www.zotero.org/styles/unl-apa-7-es-y" rel="self"/>
+    <link href="http://www.zotero.org/styles/apa" rel="template"/>
     <category citation-format="author-date"/>
-    <category field="generic-base"/>
-    <summary>Basado en APA (última edición) adaptado a la Guía para la escritura y presentación del proyecto de integración curricular o de titulación de la UNL (2024). Conector "y", et al. desde 3 autores, bibliografía alfabética con sangría francesa.</summary>
-    <updated>2026-11-23T00:00:00+00:00</updated>
+    <summary>APA 7 adaptado a la guía UNL 2024 con conjunción y.</summary>
+    <updated>2026-11-24T00:00:00+00:00</updated>
   </info>
 
   <locale xml:lang="es">
     <terms>
       <term name="and">y</term>
       <term name="et-al">et al.</term>
-      <term name="in">en</term>
-      <term name="no date" form="short">s.f.</term>
+      <term name="no date">s. f.</term>
+      <term name="page" form="short">p.</term>
+      <term name="pages" form="short">pp.</term>
       <term name="editor" form="short">
         <single>Ed.</single>
         <multiple>Eds.</multiple>
       </term>
-      <term name="page" form="short">
-        <single>p.</single>
-        <multiple>pp.</multiple>
-      </term>
     </terms>
   </locale>
 
-  <!-- ============ MACROS ============ -->
-
-  <!-- Autores en la bibliografía: Apellido, N., Apellido, N., y Apellido, N. -->
   <macro name="author">
     <names variable="author">
-      <name name-as-sort-order="all" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always" initialize-with=". "/>
+      <name name-as-sort-order="all"
+            initialize-with=". "
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="always"/>
       <substitute>
         <names variable="editor">
-          <name name-as-sort-order="all" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always" initialize-with=". "/>
+          <name name-as-sort-order="all"
+                initialize-with=". "
+                delimiter=", "
+                and="text"/>
         </names>
         <text variable="title"/>
       </substitute>
     </names>
   </macro>
 
-  <!-- Autores en el texto: Apellido, Apellido y Apellido -> et al. desde 3 -->
-  <macro name="author-intext">
+  <macro name="author-short">
     <names variable="author">
-      <name form="short" and="text" delimiter=", " delimiter-precedes-last="never"/>
+      <name form="short" and="text" delimiter=", "/>
+      <et-al/>
       <substitute>
-        <names variable="editor">
-          <name form="short" and="text" delimiter=", " delimiter-precedes-last="never"/>
-        </names>
         <text variable="title" form="short"/>
       </substitute>
     </names>
   </macro>
 
-  <macro name="issued-intext">
+  <macro name="date">
     <choose>
       <if variable="issued">
         <date variable="issued">
@@ -64,240 +65,97 @@
         </date>
       </if>
       <else>
-        <text term="no date" form="short"/>
+        <text term="no date"/>
       </else>
     </choose>
   </macro>
 
-  <!-- Fecha en la bibliografía, según el tipo de documento -->
-  <macro name="date-bib">
-    <choose>
-      <if variable="issued">
-        <choose>
-          <if type="article-newspaper">
-            <!-- Periódico: (año, mes, día) -->
-            <date variable="issued">
-              <date-part name="year"/>
-              <date-part name="month" form="numeric-leading-zeros" prefix=", "/>
-              <date-part name="day" form="numeric-leading-zeros" prefix=", "/>
-            </date>
-          </if>
-          <else-if type="webpage post-weblog">
-            <!-- Página web: (20 de febrero de 2022) -->
-            <date variable="issued">
-              <date-part name="day" suffix=" de "/>
-              <date-part name="month" suffix=" de "/>
-              <date-part name="year"/>
-            </date>
-          </else-if>
-          <else>
-            <date variable="issued">
-              <date-part name="year"/>
-            </date>
-          </else>
-        </choose>
-      </if>
-      <else>
-        <text term="no date" form="short"/>
-      </else>
-    </choose>
-  </macro>
-
-  <!-- DOI como https://doi.org/..., o en su defecto URL -->
-  <macro name="link">
-    <choose>
-      <if variable="DOI">
-        <text variable="DOI" prefix="https://doi.org/"/>
-      </if>
-      <else-if variable="URL">
-        <text variable="URL"/>
-      </else-if>
-    </choose>
-  </macro>
-
-  <macro name="locator">
-    <group delimiter=" ">
-      <label variable="locator" form="short"/>
-      <text variable="locator"/>
-    </group>
-  </macro>
-
-  <!-- Cuerpo de la referencia según el tipo -->
-  <macro name="body">
-    <choose>
-      <!-- Artículo de revista (impreso o en línea) -->
-      <if type="article-journal article-magazine" match="any">
-        <group delimiter=" ">
-          <text variable="title" suffix="."/>
-          <group delimiter=", " suffix=".">
-            <text variable="container-title" font-style="italic"/>
-            <group>
-              <text variable="volume" font-style="italic"/>
-              <text variable="issue" prefix="(" suffix=")"/>
-            </group>
-            <text variable="page"/>
-          </group>
-          <text macro="link"/>
-        </group>
-      </if>
-      <!-- Libro -->
-      <else-if type="book">
-        <group delimiter=" ">
-          <group delimiter=" " suffix=".">
-            <text variable="title" font-style="italic"/>
-            <text variable="edition" prefix="(" suffix=" Ed.)"/>
-          </group>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Capítulo de libro -->
-      <else-if type="chapter">
-        <group delimiter=" ">
-          <text variable="title" suffix="."/>
-          <group delimiter=" " suffix=".">
-            <text term="in" text-case="capitalize-first"/>
-            <group delimiter=", ">
-              <names variable="editor">
-                <name and="text" delimiter=", " delimiter-precedes-last="always" initialize-with=". "/>
-                <label form="short" prefix=" (" suffix=")"/>
-              </names>
-              <group delimiter=" ">
-                <text variable="container-title" font-style="italic"/>
-                <text variable="page" prefix="(pp. " suffix=")"/>
-              </group>
-            </group>
-          </group>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Tesis de grado, maestría o doctorado -->
-      <else-if type="thesis">
-        <group delimiter=" ">
-          <text variable="title" font-style="italic" suffix="."/>
-          <group delimiter=", " prefix="[" suffix="].">
-            <text variable="genre"/>
-            <text variable="publisher"/>
-          </group>
-          <text variable="source" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Informe técnico -->
-      <else-if type="report">
-        <group delimiter=" ">
-          <group delimiter=" " suffix=".">
-            <text variable="title" font-style="italic"/>
-            <text variable="number" prefix="(N.o " suffix=")"/>
-          </group>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Periódico impreso o digital -->
-      <else-if type="article-newspaper">
-        <group delimiter=" ">
-          <text variable="title" suffix="."/>
-          <group delimiter=", " suffix=".">
-            <text variable="container-title" font-style="italic"/>
-            <text variable="page"/>
-          </group>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Páginas web -->
-      <else-if type="webpage post-weblog" match="any">
-        <group delimiter=" ">
-          <text variable="title" suffix="."/>
-          <text variable="container-title" suffix="."/>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Webinar, video, grabación -->
-      <else-if type="motion_picture broadcast" match="any">
-        <group delimiter=" ">
-          <group delimiter=" " suffix=".">
-            <text variable="title" font-style="italic"/>
-            <text variable="genre" prefix="[" suffix="]"/>
-          </group>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Presentaciones en eventos: congresos, seminarios, conferencias -->
-      <else-if type="paper-conference speech" match="any">
-        <group delimiter=" ">
-          <text variable="title" font-style="italic" suffix="."/>
-          <group suffix=".">
-            <choose>
-              <if variable="event">
-                <text variable="event" prefix="[" suffix="]"/>
-              </if>
-              <else-if variable="genre">
-                <text variable="genre" prefix="[" suffix="]"/>
-              </else-if>
-              <else-if variable="container-title">
-                <text variable="container-title" prefix="[" suffix="]"/>
-              </else-if>
-            </choose>
-          </group>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else-if>
-      <!-- Otros -->
-      <else>
-        <group delimiter=" ">
-          <text variable="title" font-style="italic" suffix="."/>
-          <text variable="publisher" suffix="."/>
-          <text macro="link"/>
-        </group>
-      </else>
-    </choose>
-  </macro>
-
-  <!-- ============ CITAS EN EL TEXTO ============ -->
-  <!-- (Smith y Smith, 2011) | (Maldonado et al., 2011; Zury, 2012) | (Baldemera et al., 2018, p. 57) -->
-  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" disambiguate-add-givenname="false" collapse="year" year-suffix-delimiter=", " after-collapse-delimiter="; ">
+  <citation et-al-min="3"
+            et-al-use-first="1"
+            disambiguate-add-year-suffix="true">
     <sort>
-      <key macro="author-intext"/>
-      <key variable="issued"/>
+      <key macro="author-short"/>
+      <key macro="date"/>
     </sort>
-    <layout delimiter="; ">
-      <choose>
-        <!-- CITA NARRATIVA: Autor (año). Se activa al elegir el localizador "Línea" (line) en Mendeley Cite -->
-        <if locator="line">
-          <group delimiter=" ">
-            <text macro="author-intext"/>
-            <text macro="issued-intext" prefix="(" suffix=")"/>
-          </group>
-        </if>
-        <!-- CITA PARENTÉTICA: (Autor, año) o (Autor, año, p. X) -->
-        <else>
-          <group delimiter=", " prefix="(" suffix=")">
-            <text macro="author-intext"/>
-            <text macro="issued-intext"/>
-            <text macro="locator"/>
-          </group>
-        </else>
-      </choose>
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author-short"/>
+        <text macro="date"/>
+        <group delimiter=" ">
+          <label variable="locator" form="short"/>
+          <text variable="locator"/>
+        </group>
+      </group>
     </layout>
   </citation>
 
-  <!-- ============ BIBLIOGRAFÍA ============ -->
-  <!-- Orden alfabético, sangría francesa (1,27 cm = 0,5 in), interlineado sencillo -->
-  <bibliography hanging-indent="true" entry-spacing="0" line-spacing="1" et-al-min="99" et-al-use-first="98">
+  <bibliography hanging-indent="true"
+                et-al-min="21"
+                et-al-use-first="19"
+                entry-spacing="0"
+                line-spacing="2">
     <sort>
       <key macro="author"/>
-      <key variable="issued"/>
+      <key macro="date"/>
+      <key variable="title"/>
     </sort>
-    <layout suffix="">
+    <layout>
       <group delimiter=" ">
-        <text macro="author" suffix="."/>
-        <text macro="date-bib" prefix="(" suffix=")."/>
-        <text macro="body"/>
+        <text macro="author"/>
+        <group prefix="(" suffix=").">
+          <text macro="date"/>
+        </group>
+
+        <choose>
+          <if type="article-journal article-magazine article-newspaper" match="any">
+            <text variable="title" suffix="."/>
+            <group delimiter=", ">
+              <text variable="container-title" font-style="italic"/>
+              <group>
+                <text variable="volume" font-style="italic"/>
+                <text variable="issue" prefix="(" suffix=")"/>
+              </group>
+              <text variable="page"/>
+            </group>
+            <choose>
+              <if variable="DOI">
+                <text variable="DOI" prefix=". https://doi.org/"/>
+              </if>
+              <else-if variable="URL">
+                <text variable="URL" prefix=". "/>
+              </else-if>
+            </choose>
+          </if>
+
+          <else-if type="thesis">
+            <text variable="title" font-style="italic" suffix="."/>
+            <group prefix="[" suffix="]" delimiter=", ">
+              <text variable="genre"/>
+              <text variable="publisher"/>
+            </group>
+            <text variable="URL" prefix=". "/>
+          </else-if>
+
+          <else-if type="webpage">
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="container-title" prefix=" "/>
+            <text variable="URL" prefix=". "/>
+          </else-if>
+
+          <else>
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="edition" prefix=" (" suffix=")."/>
+            <text variable="publisher"/>
+            <choose>
+              <if variable="DOI">
+                <text variable="DOI" prefix=". https://doi.org/"/>
+              </if>
+              <else-if variable="URL">
+                <text variable="URL" prefix=". "/>
+              </else-if>
+            </choose>
+          </else>
+        </choose>
       </group>
     </layout>
   </bibliography>
